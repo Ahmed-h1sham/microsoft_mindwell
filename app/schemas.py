@@ -42,5 +42,5 @@ class MoodLogResponse(MoodLogBase):
 class MoodLogHistory(BaseModel):
     filename: str
     mood: str
-    timestamp: datetime
+    timestamp: Optional[datetime]
     recommendation: str
