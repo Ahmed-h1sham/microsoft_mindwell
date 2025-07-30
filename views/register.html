@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - MindWell | Microsoft Mental Health Analysis</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            background: linear-gradient(135deg, #f0f3f7, #e3e8ef);
+            padding: 2rem;
+        }
+
+        .auth-content {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-image {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1920&auto=format&fit=crop') center/cover;
+            min-height: 600px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            display: none;
+        }
+
+        .auth-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 120, 212, 0.7);
+        }
+
+        .image-content {
+            position: relative;
+            color: white;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .image-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .image-content p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .auth-form {
+            flex: 1;
+            padding: 3rem;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .auth-logo img {
+            height: 28px;
+        }
+
+        .auth-logo span {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .auth-header {
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h2 {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .auth-header p {
+            color: var(--neutral-color);
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1.5px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.2s;
+            background: var(--accent-color);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(0, 120, 212, 0.1);
+        }
+
+        .password-requirements {
+            margin-top: 0.75rem;
+            padding: 1rem;
+            background: var(--accent-color);
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+
+        .password-requirements h4 {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .password-requirements ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .password-requirements li {
+            color: #888;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .password-requirements li.valid {
+            color: #2ecc40;
+        }
+        .password-requirements li .fa-check {
+            color: #2ecc40;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .password-requirements li.valid .fa-check {
+            opacity: 1;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .terms {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--accent-color);
+            border-radius: 6px;
+        }
+
+        .terms input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 0.25rem;
+            border: 1.5px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .terms label {
+            font-size: 0.875rem;
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+
+        .terms label a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .terms label a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-btn:hover {
+            background-color: #006cbd;
+            transform: translateY(-1px);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--neutral-color);
+            margin: 1.5rem 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .divider span {
+            padding: 0 1rem;
+            font-size: 0.95rem;
+        }
+
+        .social-login {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.875rem;
+            border: 1.5px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--white);
+            color: var(--text-color);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .social-btn:hover {
+            background: var(--accent-color);
+            border-color: var(--text-color);
+        }
+
+        .social-btn img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .auth-footer {
+            text-align: center;
+            color: var(--neutral-color);
+            font-size: 0.95rem;
+        }
+
+        .auth-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (min-width: 1024px) {
+            .auth-image {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .auth-container {
+                padding: 1rem;
+            }
+
+            .auth-form {
+                padding: 2rem;
+            }
+
+            .auth-header h2 {
+                font-size: 1.75rem;
+            }
+        }
+
+        a[href="index.html"] {
+            text-decoration: none;
+        }
+
+        a[href="index.html"]:hover {
+            text-decoration: underline;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+        .input-with-icon input {
+            padding-left: 2.2em;
+        }
+        .input-with-icon i {
+            position: absolute;
+            left: 0.9em;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            pointer-events: none;
+            font-size: 1.1em;
+        }
+        .agreement-box {
+            background: #f6f8fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.97rem;
+        }
+        .agreement-box input[type="checkbox"] {
+            margin-top: 0.2em;
+        }
+        .agreement-box label a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .agreement-box label a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-content">
+            <div class="auth-image">
+                <div class="image-content">
+                    <h2>Join MindWell</h2>
+                    <p>Your journey to better mental health starts here. Join our community and discover personalized insights about your emotional well-being.</p>
+                </div>
+            </div>
+            <div class="auth-form">
+                <div class="auth-logo">
+                    <a href="/">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg"
+                        alt="Microsoft Logo">
+                    </a>
+                    <span>MindWell</span>
+                </div>
+                <div class="auth-header">
+                    <h2>Create an account</h2>
+                    <p>Start your journey to better mental wellness</p>
+                </div>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-with-icon">
+                            <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-with-icon">
+                            <input type="password" id="password" placeholder="Create a password" required>
+                            <div class="password-strength" id="passwordStrength"></div>
+                        </div>
+                        <div class="password-requirements">
+                            <p>Password must contain at least:</p>
+                            <ul>
+                                <li id="length"><i class="fas fa-check"></i> 8 characters</li>
+                                <li id="uppercase"><i class="fas fa-check"></i> 1 uppercase letter</li>
+                                <li id="lowercase"><i class="fas fa-check"></i> 1 lowercase letter</li>
+                                <li id="number"><i class="fas fa-check"></i> 1 number</li>
+                                <li id="special"><i class="fas fa-check"></i> 1 special character</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="input-with-icon">
+                            <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                        </div>
+                    </div>
+                    <div class="agreement-box">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">
+                            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. I
+                            understand that my data will be used in accordance with Microsoft's privacy practices to
+                            provide mental health analysis and recommendations.
+                        </label>
+                    </div>
+                    <button type="submit" class="auth-btn">Create Account</button>
+                    <div class="auth-footer">
+                        <p>Already have an account? <a href="/login">Sign in</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/style.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert("Passwords don't match!");
+                return;
+            }
+            
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert('Registration successful! Please login.');
+                    window.location.href = '/login';
+            } else {
+                    alert(data.detail || 'Registration failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('An error occurred during registration. Please try again.');
+            }
+        });
+
+        // Password strength validation
+        const passwordInput = document.getElementById('password');
+        const lengthReq = document.getElementById('length');
+        const uppercaseReq = document.getElementById('uppercase');
+        const lowercaseReq = document.getElementById('lowercase');
+        const numberReq = document.getElementById('number');
+        const specialReq = document.getElementById('special');
+        const passwordStrength = document.getElementById('passwordStrength');
+
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            
+            // Check requirements
+            lengthReq.classList.toggle('valid', password.length >= 8);
+            uppercaseReq.classList.toggle('valid', /[A-Z]/.test(password));
+            lowercaseReq.classList.toggle('valid', /[a-z]/.test(password));
+            numberReq.classList.toggle('valid', /[0-9]/.test(password));
+            specialReq.classList.toggle('valid', /[^A-Za-z0-9]/.test(password));
+            
+            // Calculate strength
+            let strength = 0;
+            if (password.length >= 8) strength += 20;
+            if (password.length >= 12) strength += 10;
+            if (/[A-Z]/.test(password)) strength += 20;
+            if (/[a-z]/.test(password)) strength += 20;
+            if (/[0-9]/.test(password)) strength += 20;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+            
+            // Set strength indicator
+            passwordStrength.style.width = strength + '%';
+            
+            if (strength < 40) {
+                passwordStrength.style.backgroundColor = '#FF4B4B';
+            } else if (strength < 70) {
+                passwordStrength.style.backgroundColor = '#FFC107';
+            } else {
+                passwordStrength.style.backgroundColor = '#4CAF50';
+            }
+        });
+    </script>
+</body>
+</html>

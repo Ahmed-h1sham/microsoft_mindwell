@@ -57,21 +57,12 @@ def get_my_history(
 ):
     logs = crud.get_user_mood_logs(db, user_id=current_user.id)
 
-    def recommend(mood: str) -> str:
-        return {
-            "happy": "Keep doing what you love!",
-            "sad": "Consider taking a walk or talking to someone.",
-            "angry": "Try deep breathing or journaling.",
-            "excited": "Channel it into a passion project!",
-            "neutral": "Maybe try something new today?"
-        }.get(mood, "Stay mindful and take care.")
-
     return [
         {
             "filename": log.filename,
             "mood": log.mood,
             "timestamp": log.timestamp,
-            "recommendation": recommend(log.mood)
+            "recommendation": ai_model.generate_recommendation(log.mood)
         }
         for log in logs
     ]

@@ -1,48 +1,46 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
+from typing import Optional, List
 from datetime import datetime
 
-# History with Recommendation
+# User schemas
+class UserBase(BaseModel):
+    email: EmailStr
+
+class UserCreate(UserBase):
+    password: str
+
+class UserLogin(UserBase):
+    password: str
+
+class UserResponse(UserBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+
+# Token schema
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+# Mood log schemas
+class MoodLogBase(BaseModel):
+    mood: str
+    filename: str
+
+class MoodLogCreate(MoodLogBase):
+    user_id: int
+
+class MoodLogResponse(MoodLogBase):
+    id: int
+    user_id: int
+    timestamp: datetime
+
+    class Config:
+        from_attributes = True
+
 class MoodLogHistory(BaseModel):
     filename: str
     mood: str
     timestamp: datetime
     recommendation: str
-
-    class Config:
-        from_attributes = True
-
-# Input schema for mood log creation
-class MoodLogCreate(BaseModel):
-    filename: str
-    mood: str
-
-# Output schema for mood log with ID and timestamp
-class MoodLogResponse(MoodLogCreate):
-    id: int
-    timestamp: datetime
-
-    class Config:
-        from_attributes = True
-
-# Registration schema
-class UserCreate(BaseModel):
-    email: str
-    password: str
-
-# Login schema
-class UserLogin(BaseModel):
-    email: str
-    password: str
-
-# Token schema
-class Token(BaseModel):
-    access_token: str
-    token_type: str = "bearer"
-
-# Response model for user
-class UserResponse(BaseModel):
-    id: int
-    email: str
-
-    class Config:
-        from_attributes = True
